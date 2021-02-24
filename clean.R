@@ -30,7 +30,27 @@ youth <- subset(stops, age=="Juvenile")
 # age to numeric
 stops$age <- as.numeric(stops$age)
 
+# make missing race explicit
 stops$race_ethnicity <- fct_explicit_na(stops$race_ethnicity)
+
+# ................................................................
+
+
+# recode person_search_reason_probable_cause to separate variables
+stops$psrpc_nature <- ifelse(str_detect(stops$person_search_reason_probable_cause, "Nature")==T, "nature of the alleged crime", NA)
+stops$psrpc_char <- ifelse(str_detect(stops$person_search_reason_probable_cause, "Characteristics")==T, "characteristics of an armed individual", NA)
+stops$psrpc_witness <- ifelse(str_detect(stops$person_search_reason_probable_cause, "witnesses")==T, "information from witnesses", NA)
+stops$psrpc_actions <- ifelse(str_detect(stops$person_search_reason_probable_cause, "actions")==T, "individual actions", NA)
+stops$psrpc_consent <- ifelse(str_detect(stops$person_search_reason_probable_cause, "Consent")==T, "consent", NA)
+stops$psrpc_infoleo <- ifelse(str_detect(stops$person_search_reason_probable_cause, "law enforcement")==T, "information from law enforcement", NA)
+
+# race demographics 
+prop.table(table(stops$psrpc_nature, stops$race_ethnicity)) # 90% of 524
+prop.table(table(stops$psrpc_char, stops$race_ethnicity)) # 96.4% of 112
+prop.table(table(stops$psrpc_witness, stops$race_ethnicity)) # 94.9% of 99
+prop.table(table(stops$psrpc_actions, stops$race_ethnicity)) # 91.3% of 496
+prop.table(table(stops$psrpc_consent, stops$race_ethnicity)) # 87% of 31
+prop.table(table(stops$psrpc_infoleo, stops$race_ethnicity)) #93.9%  of 412
 
 # race by stop district
 ggplot(subset(stops, !is.na(stop_district)), aes(stop_district, fill=race_ethnicity)) + 
@@ -64,6 +84,13 @@ ggplot(stops, aes(age, fill=race_ethnicity)) + geom_density(alpha=0.6)
 kable(100*prop.table(table(stops$stop_type, stops$race_ethnicity), margin=2), digits = 2)
 # black citizens who were stopped were more likely to have a non-ticket stop 
 # evidence of racial profiling
+
+prop.table(table(stops$property_protective_pat_down, stops$race_ethnicity), margin=2)
+prop.table(table(stops$person_search_consent, stops$race_ethnicity), margin=2)
+prop.table(table(stops$person_search_probable_cause, stops$race_ethnicity), margin=2)
+prop.table(table(stops$person_search_or_protective_pat_down, stops$race_ethnicity), margin=2)
+# 17% Black, 3.3% white
+
 
 
 

@@ -16,6 +16,8 @@ Data Source: [MPD Stop Data, January 1-June 30, 2020](https://mpdc.dc.gov/node/1
 |Ticket and Non-ticket Stop |  1.07|  3.00|     1.93|     1.45|   0.00|    2.78|  0.95|
 |Ticket Only                | 86.63| 48.70|    57.89|    88.41|  54.17|   26.84| 78.30|
 
-Race demographics of stops vary significantly by police district. 
+  * Race demographics of stops vary significantly by police district. 
 
 ![race fig](plots/race-district.png)
+
+  * Person search or protective pat down 17% of Black people but 3.2% of white people
