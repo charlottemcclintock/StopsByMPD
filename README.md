@@ -18,4 +18,4 @@ Data Source: [MPD Stop Data, January 1-June 30, 2020](https://mpdc.dc.gov/node/1
 
 Race demographics of stops vary significantly by police district. 
 
-[race fig](plots/race-district.png)
+![race fig](plots/race-district.png)
