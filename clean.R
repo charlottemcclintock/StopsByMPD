@@ -8,6 +8,7 @@
 library(tidyverse)
 library(RColorBrewer)
 library(knitr)
+library(scales)
 
 # read in the data 
 stops1 <- read_csv("data/stops1.csv", na = "NULL")
@@ -29,10 +30,16 @@ youth <- subset(stops, age=="Juvenile")
 # age to numeric
 stops$age <- as.numeric(stops$age)
 
+stops$race_ethnicity <- fct_explicit_na(stops$race_ethnicity)
+
 # race by stop district
-ggplot(stops, aes(stop_district, fill=race_ethnicity)) + 
+ggplot(subset(stops, !is.na(stop_district)), aes(stop_district, fill=race_ethnicity)) + 
   geom_bar(position="fill") + 
-  scale_fill_manual(values=brewer.pal(8, "Set2"))
+  scale_fill_manual(values=brewer.pal(8, "Set2")) +
+  scale_y_continuous(labels=scales::percent) +
+  labs(title="Race of People Stopped by Police District", 
+       fill="Race/Ethnicity", 
+       x="District", y="Percent") 
 
 # stop duration by race
 ggplot(stops, aes(duration_cut, fill=race_ethnicity)) + geom_bar(position="dodge")
